@@ -23,6 +23,3 @@ test_script:
 
 
     .\money\packages\testspace\testspace.exe publish .\results.xml .\testresult.xml ${ENV:testspace_token}:@jschultz.testspace.com/my-project/Nunit
-
-
-    $ENV:testspace_token
