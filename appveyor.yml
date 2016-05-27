@@ -1,7 +1,8 @@
 version: 1.0.{build}
 configuration: Debug
 environment:
-  testspace_token: 61033bb9d396d25fa02ddc1941d9cd6681fe139b
+  testspace_token:
+    secure: 6o5+oEMSH34w1elqw0GK+RDp+E2hpxrryammHELAVxxDNZA6TMAdhqfVL36qXHlC
 install:
 - ps: >-
     mkdir .\money\packages
@@ -22,3 +23,6 @@ test_script:
 
 
     .\money\packages\testspace\testspace.exe publish .\results.xml .\testresult.xml ${ENV:testspace_token}:@jschultz.testspace.com/my-project/Nunit
+
+
+    $ENV:testspace_token
