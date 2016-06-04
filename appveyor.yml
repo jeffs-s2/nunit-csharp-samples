@@ -22,4 +22,13 @@ test_script:
     .\money\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -target:".\money\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe" -targetargs:'.\money\bin\Debug\cs-money.dll' -register:user
 
 
-    .\money\packages\testspace\testspace.exe publish .\results.xml .\testresult.xml ${ENV:testspace_token}:@jschultz.testspace.com/my-project/Nunit
+    .\money\packages\testspace\testspace.exe publish .\testresult.xml .\results.xml ${ENV:testspace_token}:@jschultz.testspace.com/my-project/Nunit
+
+
+    # upload results to AppVeyor
+
+
+    $wc = New-Object 'System.Net.WebClient'
+
+
+    $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit3/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\testresult.xml))
