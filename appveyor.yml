@@ -2,7 +2,7 @@ version: 1.0.{build}
 configuration: Debug
 environment:
   testspace_token:
-    secure: 6o5+oEMSH34w1elqw0GK+RDp+E2hpxrryammHELAVxxDNZA6TMAdhqfVL36qXHlC
+    secure: pAI5nNig8Wcc5K2GEiMTx/m5EiwfB+fIZTaTUt0254nLmP3HH/x1BeWAGXa7u2JR
 install:
 - ps: >-
     mkdir .\money\packages
