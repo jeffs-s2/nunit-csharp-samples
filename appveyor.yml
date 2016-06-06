@@ -19,10 +19,10 @@ build:
   verbosity: minimal
 test_script:
 - ps: >-
-    .\money\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -target:".\money\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe" -targetargs:'.\money\bin\Debug\cs-money.dll' -register:user
+    .\money\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -target:".\money\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe" -targetargs:'.\money\bin\Debug\cs-money.dll' -output:'.\codecoverage.xml' -register:user
 
 
-    .\money\packages\testspace\testspace.exe publish .\testresult.xml .\results.xml ${ENV:testspace_token}:@jschultz.testspace.com/my-project/Nunit
+    .\money\packages\testspace\testspace.exe publish .\testresult.xml .\codecoverage.xml ${ENV:testspace_token}:@jschultz.testspace.com/my-project/Nunit
 
 
     # upload results to AppVeyor
