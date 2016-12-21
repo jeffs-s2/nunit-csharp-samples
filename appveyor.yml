@@ -1,34 +1,15 @@
 version: 1.0.{build}
 configuration: Debug
-environment:
-  testspace_token:
-    secure: pAI5nNig8Wcc5K2GEiMTx/m5EiwfB+fIZTaTUt0254nLmP3HH/x1BeWAGXa7u2JR
-install:
-- ps: >-
-    mkdir .\money\packages
 
-    mkdir .\money\packages\testspace
-
-    wget https://testspace-client.s3.amazonaws.com/testspace-windows.zip -outfile .\money\packages\testspace.zip
-
-    7z x .\money\packages\testspace.zip -omoney\packages\testspace
 build_script:
-- ps: >-
-    nuget restore money/cs-money.sln
+   - nuget restore money/cs-money.sln
 
-    msbuild money/cs-money.csproj /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /p:runCodeAnalysis=true /p:codeanalysislogfile=StaticAnalysis.xml
 test_script:
-- ps: >-
-    .\money\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -target:".\money\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe" -targetargs:'.\money\bin\Debug\cs-money.dll' -output:'.\codecoverage.xml' -register:user
+   - msbuild money/cs-money.csproj /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /p:runCodeAnalysis=true /p:codeanalysislogfile=..\analysis.xml
+   - .\money\packages\OpenCover.4.6.519\tools\OpenCover.Console -target:".\money\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe" -targetargs:"money\bin\Debug\cs-money.dll" -output:"coverage.xml" -filter:"+[*]* -[*]*MoneyTest*" -register:user
 
-
-    .\money\packages\testspace\testspace.exe publish .\testresult.xml .\codecoverage.xml money\staticanalysis.xml ${ENV:TESTSPACE_URL}/${ENV:APPVEYOR_REPO_BRANCH}
-
-
-    # upload results to AppVeyor
-
-
-    $wc = New-Object 'System.Net.WebClient'
-
-
-    $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit3/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\testresult.xml))
+after_test:
+  - curl -fsS -o testspace-windows.zip https://testspace-client.s3.amazonaws.com/testspace-windows.zip
+  - 7z x -y testspace-windows.zip
+- testspace analysis.xml [Tests]TestResult.xml coverage.xml %TESTSPACE_TOKEN%/%APPVEYOR_PROJECT_SLUG:/=:%/%APPVEYOR_REPO_BRANCH%#appveyor.build.%APPVEYOR_BUILD_NUMBER%
+echo %NAME:/=:%
