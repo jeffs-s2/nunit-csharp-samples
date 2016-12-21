@@ -12,4 +12,3 @@ after_test:
   - curl -fsS -o testspace-windows.zip https://testspace-client.s3.amazonaws.com/testspace-windows.zip
   - 7z x -y testspace-windows.zip
 - testspace analysis.xml [Tests]TestResult.xml coverage.xml %TESTSPACE_TOKEN%/%APPVEYOR_PROJECT_SLUG:/=:%/%APPVEYOR_REPO_BRANCH%#appveyor.build.%APPVEYOR_BUILD_NUMBER%
-echo %NAME:/=:%
