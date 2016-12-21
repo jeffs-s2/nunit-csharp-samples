@@ -317,5 +317,16 @@ namespace NUnit.Samples.Money
 			Money expected= new Money(2, "CHF");
 			Assert.AreEqual(expected, f14CHF.Subtract(f12CHF));
 		}
-	}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// 
+        [Test]
+        public void MoneyContains()
+        {
+            Money[] bag = { new Money(12, "CHF"), new Money(7, "USD") };
+            MoneyBag expected = new MoneyBag(bag);
+            Assert.AreEqual(expected, fMB1);
+        }
+    }
 }
